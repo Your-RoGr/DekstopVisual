@@ -1,1 +1,2 @@
+cd QtForm
 pyuic5 MainForm.ui -o MainForm.py
