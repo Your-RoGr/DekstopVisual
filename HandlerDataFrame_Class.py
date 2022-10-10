@@ -6,8 +6,13 @@ class HandlerDataFrame(pd.DataFrame):
         super(HandlerDataFrame, self).__init__()
         self.path = path
 
-df = HandlerDataFrame("1.las", x=1)
+def Main():
+    df = HandlerDataFrame("1.las", x=1)
 
-df['a'] = [1, 2, 3]
+    df['a'] = [1, 2, 3]
 
-print(df)
+    print(df)
+
+
+if __name__ == '__main__':
+    Main()

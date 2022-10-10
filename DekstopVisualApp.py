@@ -1,11 +1,14 @@
+import sys
+import os
+import win32gui
 import win32con
+import pywintypes # need for work pyinstaller with win32gui
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-import sys
-import os
-import win32gui
+from HandlerDataFrame_Class import HandlerDataFrame
 
 from MainForm import Ui_MainWindow
 
