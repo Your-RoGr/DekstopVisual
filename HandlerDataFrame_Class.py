@@ -30,6 +30,7 @@ class HandlerDataFrame():
 
     def GetCarrotValue(self, CarrotName):
         y = self.las['DEPT']
+
         self.CarrotsName = self.las[CarrotName]
         x = self.CarrotsName
         return x
