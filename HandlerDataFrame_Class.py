@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import lasio
+import os
 
 class HandlerDataFrame():
 
@@ -8,7 +9,7 @@ class HandlerDataFrame():
         super(HandlerDataFrame, self).__init__()
         self.name = name
 
-        self.dictionary = lasio.read(rf'C:\\Users\\kiril\\OneDrive\\Рабочий стол\\For programist\\Programs\\DekstopVisual\\data\\GIS_md\\{name}')
+        self.dictionary = lasio.read(rf'{os.getcwd()}\\data\\GIS_md\\{name}')
 
         self.keys = self.dictionary.keys()
 
