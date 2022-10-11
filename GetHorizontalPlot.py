@@ -25,6 +25,7 @@ def Main():
 
             fig, ax = plt.subplots(figsize=(4, 10))
 
+
             plt.plot(x, y)
             plt.gca().invert_yaxis()
 
