@@ -26,6 +26,7 @@ def Main():
             fig, ax = plt.subplots(figsize=(4, 10))
 
             plt.plot(x, y)
+            plt.gca().invert_yaxis()
 
             plt.savefig(f'{os.getcwd()}\\graphics\\{i+1}-las\\{carrotage}-{i}.png')
 
