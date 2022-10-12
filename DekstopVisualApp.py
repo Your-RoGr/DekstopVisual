@@ -37,8 +37,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
 
-        self.showCanvases(Handler.GetFileNames()[0])
-
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
         self.widgetCanvas.setMinimumHeight(self.horizontalSlider.value())
