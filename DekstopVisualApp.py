@@ -23,6 +23,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
+        self.setWindowTitle("DekstopVisual")
+
+        self.widgetCanvas.setMaximumHeight(900)
+        self.widgetCanvas.setMinimumHeight(900)
+
         self.horizontalSlider.setRange(900, 6000)
         self.horizontalSlider.valueChanged.connect(self.changeSliderValue) # Сделать связь с lctrl
 
@@ -33,8 +38,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
 
         self.showCanvases(Handler.GetFileNames()[0])
-
-        self.show()
 
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
@@ -81,10 +84,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def onMyExitButtonClick(self,s):
         self.close()
 
+    # def wheelEvent(self, event):
+    #     # если event.delta ()> 0: # Свернуть, PyQt4
+    #     # This function has been deprecated, use pixelDelta() or angleDelta() instead.
+    #     angle = event.angleDelta() / 8  # Возвращает объект QPoint, который является значением колеса прокрутки, единица измерения - 1/8 градуса
+    #
+    #     angleX = angle.x()  # Расстояние для поворота по горизонтали (здесь не используется)
+    #     angleY = angle.y()  # Расстояние для поворота по вертикали
+    #
+    #     if angleY > 0:
+    #         self.setText("Событие прокрутки колеса вверх: самоопределение")
+    #         print("Колесо мыши в движении")  # ответ на тестовый запрос
+    #     else:  # свернуть
+    #         self.setText('Событие прокрутки колеса вниз: определите　себя')
+    #         print("Прокрутка колеса мыши вниз")  # Ответ на тестовый запрос
+    #
+    # def key_lctrl(self):
+    #     pass
+    #     button_one = QPushButton()
+    #     button_one.setShortcut('lctrl')
+    #     button_one.clicked.connect(self.key_lctrl)
+
 def Main():
     app = QApplication(sys.argv)
 
     window = MainWindow()
+    window.show()
 
     app.exec_()
 

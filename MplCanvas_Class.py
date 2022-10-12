@@ -38,7 +38,7 @@ class MplCanvases(FigureCanvas):
         for carottage in carottages:
 
             if carottage == 'GK_T' or carottage == 'BK_T':
-                pylab.subplot(1, len(carottages), i)
+                pylab.subplot(1, 4, i)
                 if 'GK_T' in carottages:
                     x, y = las.GetCarottageValue('GK_T')
                     carottages.pop(carottages.index('GK_T'))
@@ -55,7 +55,7 @@ class MplCanvases(FigureCanvas):
                 i += 1
 
             if carottage == 'PS_T' or carottage == 'IK_T':
-                pylab.subplot(1, len(carottages), i)
+                pylab.subplot(1, 4, i)
                 if 'PS_T' in carottages:
                     x, y = las.GetCarottageValue('PS_T')
                     carottages.pop(carottages.index('PS_T'))
@@ -72,7 +72,7 @@ class MplCanvases(FigureCanvas):
                 i += 1
 
             if carottage == 'PZ_T' or carottage == 'MPZ_T' or carottage == 'MGZ_T' or carottage == 'MBK_T':
-                pylab.subplot(1, len(carottages), i)
+                pylab.subplot(1, 4, i)
                 if 'PZ_T' in carottages:
                     x, y = las.GetCarottageValue('PZ_T')
                     carottages.pop(carottages.index('PZ_T'))
@@ -101,7 +101,7 @@ class MplCanvases(FigureCanvas):
 
             for NamberGZ in range(1, 5):
                 if carottage == f'GZ{NamberGZ}_T':
-                    pylab.subplot(1, len(carottages), i)
+                    pylab.subplot(1, 4, i)
 
                     for NamberGZ in range(1,5):
                         if f'GZ{NamberGZ}_T' in carottages:
@@ -114,7 +114,5 @@ class MplCanvases(FigureCanvas):
                     pylab.title('GZ1-5_T')
 
                     i += 1
-
-
 
         super(MplCanvases, self).__init__(fig)
