@@ -17,3 +17,7 @@ class Handler():
         x = self.carottageName
         y = self.dictionary['DEPT']
         return x, y
+
+    @staticmethod
+    def GetFileNames():
+        return [filenames for filenames in os.listdir("data\\GIS_md")]

@@ -15,21 +15,32 @@ from MainForm import Ui_MainWindow
 
 from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigatorToolbar
 
+from matplotlib.axes._base import _axis_method_wrapper
+
+from Handler_Class import Handler
+
 class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        k = 1
+
+        self.horizontalSlider.setRange(900, 6000)
+        self.horizontalSlider.valueChanged.connect(self.changeSliderValue) # Сделать связь с lctrl
+
+        self.comboBoxFileNames.addItems(Handler.GetFileNames())
+
+        self.plotButton.clicked.connect(self.onMyPlotButtonClick)
+
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
-        self.widgetCanvas.setMaximumHeight(k*1000)
-        self.widgetCanvas.setMinimumHeight(k*1000)
-        self.showCanvases('1.las')
+
+        self.showCanvases(Handler.GetFileNames()[0])
 
         self.show()
 
-    def onMyExitButtonClick(self,s):
-        self.close()
+    def changeSliderValue(self):
+        self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
+        self.widgetCanvas.setMinimumHeight(self.horizontalSlider.value())
 
     def showCanvas(self, fileName, carottage):
         # добавление шаблона резмещения на виджет
@@ -56,6 +67,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.toolbar = NavigatorToolbar(self.canvas, self)
         # Размещение экземпляра класса панели управления в шаблоне размещения
         self.layout_for_toolbar.addWidget(self.toolbar)
+
+    def onMyPlotButtonClick(self,s):
+        self.verticalLayout_2.removeWidget(self.widgetToolbar)
+
+        self.widgetCanvas = QWidget()
+        self.widgetToolbar = QWidget()
+
+        self.scrollAreaCanvases.setWidget(self.widgetCanvas)
+        self.verticalLayout_2.addWidget(self.widgetToolbar)
+
+        self.showCanvases(self.comboBoxFileNames.currentText())
+
+
+    def onMyExitButtonClick(self,s):
+        self.close()
 
 def Main():
     app = QApplication(sys.argv)

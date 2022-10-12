@@ -39,6 +39,7 @@ class MplCanvases(FigureCanvas):
                 x, y = las.GetCarottageValue(carottage)
 
                 pylab.subplot(1, len(carottages), i)
+                pylab.grid(True)
                 pylab.plot(x, y)
                 pylab.gca().invert_yaxis()
                 pylab.title(carottage)
