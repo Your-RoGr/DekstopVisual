@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-from HandlerDataFrame_Class import HandlerDataFrame
+from Handler_Class import Handler
 
 from MainForm import Ui_MainWindow
 

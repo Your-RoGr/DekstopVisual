@@ -4,15 +4,15 @@ import pandas as pb
 import matplotlib.pyplot as plt
 import seaborn
 
-from HandlerDataFrame_Class import HandlerDataFrame
+from Handler_Class import Handler
 
 def Main():
     for i in range(78):
 
         if i+1 <= 10:
-            las = HandlerDataFrame(f'{i+1}.las')
+            las = Handler(f'{i+1}.las')
         else:
-            las = HandlerDataFrame(f'{i+1}-1.las')
+            las = Handler(f'{i+1}-1.las')
 
         # объеденить данные, если одна скважика, или разбить на скважины, хз что в этих данных
         carrotages = las.keys # truple ([]) - все виды
