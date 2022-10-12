@@ -18,15 +18,4 @@ class GetCheckBox(QWidget):
 
             self.mainLayout.addWidget(self.newCheckBox)
 
-        # for i in range(self.mainLayout.count()):
-        #     self.mainLayout.itemAt(i).widget().clicked.connect(lambda x: self.onMyCheckBoxClick(self.mainLayout.itemAt(i).widget()))
-
-            # self.checkBoxs.clicked.connect(lambda x: self.onMyCheckBoxClick(self.checkBox))
-
         self.setLayout(self.mainLayout)
-
-    # def onMyNewCheckBoxClick(self, this):
-    #     dlg = QColorDialog(self)
-    #
-    #     if dlg.exec_():
-    #         this.setStyleSheet(f'color: {dlg.currentColor().name()};')
