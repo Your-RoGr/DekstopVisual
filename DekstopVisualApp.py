@@ -1,13 +1,16 @@
 import sys
-import os
-import random
+# import os
+# import random
+#
+# import numpy
+# import pandas
 import win32gui
 import win32con
 import pywintypes # need for work pyinstaller with win32gui
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
+# from PyQt5.QtGui import *
 
 from MplCanvas_Class import MplCanvas, MplCanvases
 
@@ -24,6 +27,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
+        self.path = "data\\GIS_md"
+
         self.setWindowTitle("DesktopVisual")
 
         self.widgetCanvas.setMaximumHeight(900)
@@ -32,7 +37,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.horizontalSlider.setRange(900, 6000)
         self.horizontalSlider.valueChanged.connect(self.changeSliderValue) # Сделать связь с lctrl
 
-        self.comboBoxFileNames.addItems(Handler.GetFileNames())
+        self.actionOpen.triggered.connect(self.actionOpenToggled)
+
+        self.comboBoxFileNames.addItems(Handler.GetFileNames(self.path))
 
         self.scrollAreaCarottageWidgetContents = QWidget()
         self.gridLayoutCarottageWidgetContents = QGridLayout()
@@ -48,13 +55,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.allButton.clicked.connect(self.onMyAllButtonClick)
 
         for i in range(self.checkBoxs.mainLayout.count()):
-            self.GivOnMyCheckBoxClick(i)
+            self.GiveOnMyCheckBoxClick(i)
 
         self.comboBoxFileNames.currentTextChanged.connect(self.changeComboBoxFileNamesEvent)
 
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
 
-    def GivOnMyCheckBoxClick(self, i):
+    def actionOpenToggled(self):
+        filter = '.las'
+        customFilter = 'Other file types\0*.*0'
+
+        try:
+            fname, customFilter, flags = win32gui.GetOpenFileNameW(
+                # InitialDir=os.environ['temp'],
+                Flags=win32con.OFN_ALLOWMULTISELECT|win32con.OFN_EXPLORER,
+                # File='somefilename',
+                # DefExt='txt',
+                Title='Выберите файл в папке назначения',
+                Filter=filter,
+                CustomFilter=customFilter,
+                FilterIndex=0
+            )
+
+            try:
+                a = repr(fname).split('\\')
+
+                a.pop(-1)
+                a.pop(0)
+
+                path = "C:\\"
+
+                for i in a:
+                    path += i + '\\'
+
+                self.path = path
+
+            except:
+                pass
+
+        except:
+            pass
+
+        self.comboBoxFileNames.addItems(Handler.GetFileNames(self.path))
+
+    def GiveOnMyCheckBoxClick(self, i):
         self.checkBoxs.mainLayout.itemAt(i).widget().clicked.connect(
             lambda x: self.onMyCheckBoxClick(self.checkBoxs.mainLayout.itemAt(i).widget()))
 
@@ -62,7 +106,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gridLayoutCarottageWidgetContents.removeWidget(self.checkBoxs)
         self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
         self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
-
 
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
@@ -86,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.layout_for_canvas = QVBoxLayout(self.widgetCanvas)
         self.layout_for_toolbar = QVBoxLayout(self.widgetToolbar)
         # Получение объекта класса холста с нашим рисунком
-        self.canvas = MplCanvases(fileName)
+        self.canvas = MplCanvases(fileName, self.GetColorsCheckBoxs())
         # Размещение экземпляра класса холста в шаблоне размещения
         self.layout_for_canvas.addWidget(self.canvas)
         # Получение объекта класса панели управления холста
@@ -116,6 +159,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onMyExitButtonClick(self,s):
         self.close()
+
+    def GetColorsCheckBoxs(self):
+        dictColors = {'Name': [], 'Color': []}
+        for i in range(self.checkBoxs.mainLayout.count()):
+            dictColors['Name'].append(self.checkBoxs.mainLayout.itemAt(i).widget().objectName())
+            dictColors['Color'].append(self.checkBoxs.mainLayout.itemAt(i).widget().styleSheet())
+
+        return dictColors
+
 
     # def wheelEvent(self, event):
     #     # если event.delta ()> 0: # Свернуть, PyQt4

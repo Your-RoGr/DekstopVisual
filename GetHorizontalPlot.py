@@ -1,8 +1,6 @@
 import os
 
-import pandas as pb
 import matplotlib.pyplot as plt
-import seaborn
 
 from Handler_Class import Handler
 

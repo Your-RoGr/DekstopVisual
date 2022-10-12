@@ -19,5 +19,5 @@ class Handler():
         return x, y
 
     @staticmethod
-    def GetFileNames():
-        return [filenames for filenames in os.listdir("data\\GIS_md")]
+    def GetFileNames(path):
+        return [filenames for filenames in os.listdir(path)]

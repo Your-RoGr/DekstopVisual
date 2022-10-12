@@ -28,7 +28,7 @@ class MplCanvas(FigureCanvas):
 
 class MplCanvases(FigureCanvas):
 
-    def __init__(self, fileName):
+    def __init__(self, fileName, dictColor):
 
         las = Handler(fileName)
         carottages = las.keys
@@ -42,11 +42,12 @@ class MplCanvases(FigureCanvas):
                 if 'GK_T' in carottages:
                     x, y = las.GetCarottageValue('GK_T')
                     carottages.pop(carottages.index('GK_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'GK_T')
 
                 x, y = las.GetCarottageValue('BK_T')
 
-                pylab.plot(x, y) # color = цвет
+                self.GetPlot(x, y, dictColor, 'BK_T')
 
                 pylab.grid(True)
                 pylab.gca().invert_yaxis()
@@ -59,11 +60,12 @@ class MplCanvases(FigureCanvas):
                 if 'PS_T' in carottages:
                     x, y = las.GetCarottageValue('PS_T')
                     carottages.pop(carottages.index('PS_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'PS_T')
 
                 x, y = las.GetCarottageValue('IK_T')
 
-                pylab.plot(x, y) # color = цвет
+                self.GetPlot(x, y, dictColor, 'IK_T')
 
                 pylab.grid(True)
                 pylab.gca().invert_yaxis()
@@ -76,22 +78,26 @@ class MplCanvases(FigureCanvas):
                 if 'PZ_T' in carottages:
                     x, y = las.GetCarottageValue('PZ_T')
                     carottages.pop(carottages.index('PZ_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'PZ_T')
 
                 if 'MPZ_T' in carottages:
                     x, y = las.GetCarottageValue('MPZ_T')
                     carottages.pop(carottages.index('MPZ_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'MPZ_T')
 
                 if 'MGZ_T' in carottages:
                     x, y = las.GetCarottageValue('MGZ_T')
                     carottages.pop(carottages.index('MGZ_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'MGZ_T')
 
                 if 'MBK_T' in carottages:
                     x, y = las.GetCarottageValue('MBK_T')
                     carottages.pop(carottages.index('MBK_T'))
-                    pylab.plot(x, y) # color = цвет
+
+                    self.GetPlot(x, y, dictColor, 'MBK_T')
 
                 pylab.grid(True)
                 pylab.gca().invert_yaxis()
@@ -99,15 +105,16 @@ class MplCanvases(FigureCanvas):
 
                 i += 1
 
-            for NamberGZ in range(1, 5):
-                if carottage == f'GZ{NamberGZ}_T':
+            for NumberGZ in range(1, 5):
+                if carottage == f'GZ{NumberGZ}_T':
                     pylab.subplot(1, 4, i)
 
-                    for NamberGZ in range(1,5):
-                        if f'GZ{NamberGZ}_T' in carottages:
-                            x, y = las.GetCarottageValue(f'GZ{NamberGZ}_T')
-                            carottages.pop(carottages.index(f'GZ{NamberGZ}_T'))
-                            pylab.plot(x, y) # color = цвет
+                    for NumberGZ in range(1,5): # Гавна посмотри воняет
+                        if f'GZ{NumberGZ}_T' in carottages:
+                            x, y = las.GetCarottageValue(f'GZ{NumberGZ}_T')
+                            carottages.pop(carottages.index(f'GZ{NumberGZ}_T'))
+
+                            self.GetPlot(x, y, dictColor, f'GZ{NumberGZ}_T')
 
                     pylab.grid(True)
                     pylab.gca().invert_yaxis()
@@ -116,3 +123,14 @@ class MplCanvases(FigureCanvas):
                     i += 1
 
         super(MplCanvases, self).__init__(fig)
+
+    @staticmethod
+    def GetPlot(x, y, dictColor, nameCarottage):
+
+        color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+
+        if color != '':
+            color = color.split(': ')
+            pylab.plot(x, y, color=color[1][:-1])
+        else:
+            pylab.plot(x, y)
