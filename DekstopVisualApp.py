@@ -15,8 +15,6 @@ from MainForm import Ui_MainWindow
 
 from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigatorToolbar
 
-from matplotlib.axes._base import _axis_method_wrapper
-
 from Handler_Class import Handler
 
 class MainWindow(QMainWindow, Ui_MainWindow):
