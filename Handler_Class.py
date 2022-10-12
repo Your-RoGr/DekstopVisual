@@ -12,22 +12,8 @@ class Handler():
         self.keys = self.dictionary.keys()
 
 
-    def GetCarrotValue(self, CarrotName):
-        self.CarrotName = self.dictionary[CarrotName]
-        x = self.CarrotName
+    def GetCarottageValue(self, CarrotName):
+        self.carottageName = self.dictionary[CarrotName]
+        x = self.carottageName
         y = self.dictionary['DEPT']
         return x, y
-
-def Main():
-    las = Handler('1.las')
-    print(las.GetCarrotValue('PZ_T'))
-    print(las.keys)
-
-
-if __name__ == '__main__':
-    Main()
-
-
-
-
-

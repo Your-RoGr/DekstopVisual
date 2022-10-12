@@ -14,24 +14,22 @@ def Main():
         else:
             las = Handler(f'{i+1}-1.las')
 
-        # объеденить данные, если одна скважика, или разбить на скважины, хз что в этих данных
-        carrotages = las.keys # truple ([]) - все виды
+        carottages = las.keys
 
         if os.path.exists(f'{os.getcwd()}\\graphics\\{i+1}-las') == False:
             os.makedirs(f'{os.getcwd()}\\graphics\\{i+1}-las')
 
-        for carrotage in carrotages:
-            x, y = las.GetCarrotValue(carrotage)
+        for carottage in carottages:
+            x, y = las.GetCarottageValue(carottage)
 
             fig, ax = plt.subplots(figsize=(4, 10))
 
             plt.plot(x, y)
             plt.gca().invert_yaxis()
 
-            plt.savefig(f'{os.getcwd()}\\graphics\\{i+1}-las\\{carrotage}-{i}.png')
+            plt.savefig(f'{os.getcwd()}\\graphics\\{i+1}-las\\{carottage}-{i}.png')
 
             fig.clear()
-            # plt.show()
 
 if __name__ == "__main__":
     Main()
