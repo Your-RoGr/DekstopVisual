@@ -16,6 +16,7 @@ from MainForm import Ui_MainWindow
 from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigatorToolbar
 
 from Handler_Class import Handler
+from GetCheckBox_Class import GetCheckBox
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -23,7 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
-        self.setWindowTitle("DekstopVisual")
+        self.setWindowTitle("DesktopVisual")
 
         self.widgetCanvas.setMaximumHeight(900)
         self.widgetCanvas.setMinimumHeight(900)
@@ -33,9 +34,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.comboBoxFileNames.addItems(Handler.GetFileNames())
 
+        self.scrollAreaCarottageWidgetContents = QWidget()
+        self.gridLayoutCarottageWidgetContents = QGridLayout()
+        self.layoutH = QHBoxLayout(self.scrollAreaCarottageWidgetContents)
+        self.layoutH.addLayout(self.gridLayoutCarottageWidgetContents)
+        self.scrollAreaCarottage.setWidget(self.scrollAreaCarottageWidgetContents)
+
+        self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
+
         self.plotButton.clicked.connect(self.onMyPlotButtonClick)
 
+        self.allButton.clicked.connect(self.onMyAllButtonClick)
+
+        for i in range(self.checkBoxs.mainLayout.count()):
+            self.GivOnMyCheckBoxClick(i)
+
+        self.comboBoxFileNames.currentTextChanged.connect(self.changeComboBoxFileNamesEvent)
+
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
+
+    def GivOnMyCheckBoxClick(self, i):
+        self.checkBoxs.mainLayout.itemAt(i).widget().clicked.connect(
+            lambda x: self.onMyCheckBoxClick(self.checkBoxs.mainLayout.itemAt(i).widget()))
+
+    def changeComboBoxFileNamesEvent(self):
+        self.gridLayoutCarottageWidgetContents.removeWidget(self.checkBoxs)
+        self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
+
 
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
@@ -78,6 +105,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.showCanvases(self.comboBoxFileNames.currentText())
 
+    def onMyAllButtonClick(self, s):
+        pass
+
+    def onMyCheckBoxClick(self, this):
+        dlg = QColorDialog(self)
+
+        if dlg.exec_():
+            this.setStyleSheet(f'color: {dlg.currentColor().name()};')
 
     def onMyExitButtonClick(self,s):
         self.close()
