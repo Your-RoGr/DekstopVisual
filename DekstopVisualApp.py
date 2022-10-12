@@ -106,6 +106,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gridLayoutCarottageWidgetContents.removeWidget(self.checkBoxs)
         self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
         self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
+        for i in range(self.checkBoxs.mainLayout.count()):
+            self.GiveOnMyCheckBoxClick(i)
 
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
