@@ -20,7 +20,7 @@ def Main(PyFile):
 if __name__ == "__main__":
     t = time.time()
 
-    Main("DekstopVisualApp")
+    Main("DesktopVisualApp")
 
     sec = (time.time() - t)
     min = math.floor(sec / 60)

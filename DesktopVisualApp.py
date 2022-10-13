@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
 
-from MplCanvas_Class import MplCanvas, MplCanvases
+from MplCanvas_Class import MplCanvases
 
 from MainForm import Ui_MainWindow
 
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
 
     def actionOpenToggled(self):
-        filter = '.las'
+        filter = 'file'
         customFilter = 'Other file types\0*.*0'
 
         try:
