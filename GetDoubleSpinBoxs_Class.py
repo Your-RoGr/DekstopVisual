@@ -16,6 +16,11 @@ class GetDoubleSpinBoxs(QWidget):
                 self.newDoubleSpinBoxs = QDoubleSpinBox()
                 self.newDoubleSpinBoxs.setObjectName(carottage)
                 self.newDoubleSpinBoxs.setValue(1)
+                self.newDoubleSpinBoxs.setMaximumWidth(62)
+                self.newDoubleSpinBoxs.setMinimumWidth(62)
+                self.newDoubleSpinBoxs.setMaximumHeight(30)
+                self.newDoubleSpinBoxs.setMinimumHeight(30)
+                self.newDoubleSpinBoxs.setFont(QFont('Comic Sans MS', 10))
 
                 self.mainLayout.addWidget(self.newDoubleSpinBoxs)
 

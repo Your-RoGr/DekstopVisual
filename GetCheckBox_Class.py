@@ -16,6 +16,11 @@ class GetCheckBox(QWidget):
                 self.newCheckBox = QCheckBox()
                 self.newCheckBox.setObjectName(carottage)
                 self.newCheckBox.setText(carottage)
+                self.newCheckBox.setMaximumWidth(62)
+                self.newCheckBox.setMinimumWidth(62)
+                self.newCheckBox.setMaximumHeight(30)
+                self.newCheckBox.setMinimumHeight(30)
+                self.newCheckBox.setFont(QFont('Comic Sans MS', 10))
 
                 self.mainLayout.addWidget(self.newCheckBox)
 

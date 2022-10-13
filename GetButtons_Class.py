@@ -18,6 +18,7 @@ class GetButtons(QWidget):
                 self.newButton.setText(carottage)
                 self.newButton.setMaximumWidth(50)
                 self.newButton.setMinimumWidth(50)
+                self.newButton.setFont(QFont('Comic Sans MS', 10))
 
                 self.mainLayout.addWidget(self.newButton)
 
