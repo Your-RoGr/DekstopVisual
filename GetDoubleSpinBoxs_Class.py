@@ -1,9 +1,9 @@
 from PyQt5.Qt import *
 from Handler_Class import Handler
 
-class GetCheckBox(QWidget):
+class GetDoubleSpinBoxs(QWidget):
     def __init__(self, comboBoxFileNames):
-        super(GetCheckBox, self).__init__()
+        super(GetDoubleSpinBoxs, self).__init__()
 
         self.comboBoxFileNames = comboBoxFileNames
         self.initUi()
@@ -13,10 +13,10 @@ class GetCheckBox(QWidget):
 
         for carottage in Handler(self.comboBoxFileNames.currentText()).keys:
             if carottage != 'DEPT':
-                self.newCheckBox = QCheckBox()
-                self.newCheckBox.setObjectName(carottage)
-                self.newCheckBox.setText(carottage)
+                self.newDoubleSpinBoxs = QDoubleSpinBox()
+                self.newDoubleSpinBoxs.setObjectName(carottage)
+                self.newDoubleSpinBoxs.setValue(1)
 
-                self.mainLayout.addWidget(self.newCheckBox)
+                self.mainLayout.addWidget(self.newDoubleSpinBoxs)
 
         self.setLayout(self.mainLayout)

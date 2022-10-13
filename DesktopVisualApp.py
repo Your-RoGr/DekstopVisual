@@ -20,6 +20,9 @@ from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigatorToo
 
 from Handler_Class import Handler
 from GetCheckBox_Class import GetCheckBox
+from GetDoubleSpinBoxs_Class import GetDoubleSpinBoxs
+from GetButtons_Class import GetButtons
+from MplAxis_Class import MplAxis
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -41,24 +44,45 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.comboBoxFileNames.addItems(Handler.GetFileNames(self.path))
 
-        self.scrollAreaCarottageWidgetContents = QWidget()
-        self.gridLayoutCarottageWidgetContents = QGridLayout()
-        self.layoutH = QHBoxLayout(self.scrollAreaCarottageWidgetContents)
-        self.layoutH.addLayout(self.gridLayoutCarottageWidgetContents)
-        self.scrollAreaCarottage.setWidget(self.scrollAreaCarottageWidgetContents)
+        # scrollAreaCarottageCheckBoxs
+        self.scrollAreaWidgetContentsCarottageCheckBoxs = QWidget()
+        self.gridLayoutCarottageWidgetContentsCheckBoxs = QGridLayout()
+        self.layoutHCheckBoxs = QHBoxLayout(self.scrollAreaWidgetContentsCarottageCheckBoxs)
+        self.layoutHCheckBoxs.addLayout(self.gridLayoutCarottageWidgetContentsCheckBoxs)
+        self.scrollAreaCarottageCheckBoxs.setWidget(self.scrollAreaWidgetContentsCarottageCheckBoxs)
 
         self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
-        self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
+        self.gridLayoutCarottageWidgetContentsCheckBoxs.addWidget(self.checkBoxs)
 
-        self.plotButton.clicked.connect(self.onMyPlotButtonClick)
+        # scrollAreaCarottageDoubleSpinBoxs
+        self.scrollAreaWidgetContentsCarottageDoubleSpinBoxs = QWidget()
+        self.gridLayoutCarottageWidgetContentsDoubleSpinBoxs = QGridLayout()
+        self.layoutHDoubleSpinBoxs= QHBoxLayout(self.scrollAreaWidgetContentsCarottageDoubleSpinBoxs)
+        self.layoutHDoubleSpinBoxs.addLayout(self.gridLayoutCarottageWidgetContentsDoubleSpinBoxs)
+        self.scrollAreaCarottageDoubleSpinBoxs.setWidget(self.scrollAreaWidgetContentsCarottageDoubleSpinBoxs)
 
-        self.allButton.clicked.connect(self.onMyAllButtonClick)
+        self.doubleSpinBoxs = GetDoubleSpinBoxs(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContentsDoubleSpinBoxs.addWidget(self.doubleSpinBoxs)
 
-        for i in range(self.checkBoxs.mainLayout.count()):
-            self.GiveOnMyCheckBoxClick(i)
+        # scrollAreaCarottageButtons
+        self.scrollAreaWidgetContentsCarottageButtons = QWidget()
+        self.gridLayoutCarottageWidgetContentsButtons = QGridLayout()
+        self.layoutHButtons = QHBoxLayout(self.scrollAreaWidgetContentsCarottageButtons)
+        self.layoutHButtons.addLayout(self.gridLayoutCarottageWidgetContentsButtons)
+        self.scrollAreaCarottageButtons.setWidget(self.scrollAreaWidgetContentsCarottageButtons)
+
+        self.buttons = GetButtons(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContentsButtons.addWidget(self.buttons)
+
+        for i in range(self.buttons.mainLayout.count()):
+            self.giveOnMyButtonClick(i)
+
+
 
         self.comboBoxFileNames.currentTextChanged.connect(self.changeComboBoxFileNamesEvent)
 
+        self.plotAllButton.clicked.connect(self.onMyPlotAllButtonClick)
+        self.allButton.clicked.connect(self.onMyAllButtonClick)
         self.exitButton.clicked.connect(self.onMyExitButtonClick)
 
     def actionOpenToggled(self):
@@ -98,33 +122,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.comboBoxFileNames.addItems(Handler.GetFileNames(self.path))
 
-    def GiveOnMyCheckBoxClick(self, i):
-        self.checkBoxs.mainLayout.itemAt(i).widget().clicked.connect(
-            lambda x: self.onMyCheckBoxClick(self.checkBoxs.mainLayout.itemAt(i).widget()))
+    def giveOnMyButtonClick(self, i):
+        self.buttons.mainLayout.itemAt(i).widget().clicked.connect(
+            lambda x: self.onMyButtonClick(self.buttons.mainLayout.itemAt(i).widget()))
 
     def changeComboBoxFileNamesEvent(self):
-        self.gridLayoutCarottageWidgetContents.removeWidget(self.checkBoxs)
+        # scrollAreaCarottageCheckBoxs
+        self.gridLayoutCarottageWidgetContentsCheckBoxs.removeWidget(self.checkBoxs)
         self.checkBoxs = GetCheckBox(self.comboBoxFileNames)
-        self.gridLayoutCarottageWidgetContents.addWidget(self.checkBoxs)
-        for i in range(self.checkBoxs.mainLayout.count()):
-            self.GiveOnMyCheckBoxClick(i)
+        self.gridLayoutCarottageWidgetContentsCheckBoxs.addWidget(self.checkBoxs)
+
+        # scrollAreaCarottageDoubleSpinBoxs
+        self.gridLayoutCarottageWidgetContentsDoubleSpinBoxs.removeWidget(self.doubleSpinBoxs)
+        self.doubleSpinBoxs = GetDoubleSpinBoxs(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContentsDoubleSpinBoxs.addWidget(self.doubleSpinBoxs)
+
+        # scrollAreaCarottageButtons
+        self.gridLayoutCarottageWidgetContentsButtons.removeWidget(self.buttons)
+        self.buttons = GetButtons(self.comboBoxFileNames)
+        self.gridLayoutCarottageWidgetContentsButtons.addWidget(self.buttons)
+        for i in range(self.buttons.mainLayout.count()):
+            self.giveOnMyButtonClick(i)
 
     def changeSliderValue(self):
         self.widgetCanvas.setMaximumHeight(self.horizontalSlider.value())
         self.widgetCanvas.setMinimumHeight(self.horizontalSlider.value())
 
-    def showCanvas(self, fileName, carottage):
-        # добавление шаблона резмещения на виджет
-        self.layout_for_canvas = QVBoxLayout(self.widgetCanvas)
-        self.layout_for_toolbar = QVBoxLayout(self.widgetToolbar)
-        # Получение объекта класса холста с нашим рисунком
-        self.canvas = MplCanvas(fileName, carottage)
-        # Размещение экземпляра класса холста в шаблоне размещения
-        self.layout_for_canvas.addWidget(self.canvas)
-        # Получение объекта класса панели управления холста
-        self.toolbar = NavigatorToolbar(self.canvas, self)
-        # Размещение экземпляра класса панели управления в шаблоне размещения
-        self.layout_for_toolbar.addWidget(self.toolbar)
+    # def showCanvas(self, fileName, carottage):
+    #     # добавление шаблона резмещения на виджет
+    #     self.layout_for_canvas = QVBoxLayout(self.widgetCanvas)
+    #     self.layout_for_toolbar = QVBoxLayout(self.widgetToolbar)
+    #     # Получение объекта класса холста с нашим рисунком
+    #     self.canvas = MplCanvas(fileName, carottage)
+    #     # Размещение экземпляра класса холста в шаблоне размещения
+    #     self.layout_for_canvas.addWidget(self.canvas)
+    #     # Получение объекта класса панели управления холста
+    #     self.toolbar = NavigatorToolbar(self.canvas, self)
+    #     # Размещение экземпляра класса панели управления в шаблоне размещения
+    #     self.layout_for_toolbar.addWidget(self.toolbar)
 
     def showCanvases(self, fileName):
         # добавление шаблона резмещения на виджет
@@ -139,28 +174,45 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Размещение экземпляра класса панели управления в шаблоне размещения
         self.layout_for_toolbar.addWidget(self.toolbar)
 
-    def onMyPlotButtonClick(self,s):
-        self.verticalLayout_2.removeWidget(self.widgetToolbar)
-
-        self.widgetCanvas = QWidget()
-        self.widgetToolbar = QWidget()
-
-        self.scrollAreaCanvases.setWidget(self.widgetCanvas)
-        self.verticalLayout_2.addWidget(self.widgetToolbar)
-
-        self.showCanvases(self.comboBoxFileNames.currentText())
+    def showXAxis(self): # Изменить
+        # добавление шаблона резмещения на виджет
+        self.layout_for_XAxis = QVBoxLayout(self.widgetXAxis)
+        # Получение объекта класса холста с нашим рисунком
+        self.xAxis = MplAxis('1.las')
+        # Размещение экземпляра класса холста в шаблоне размещения
+        self.layout_for_XAxis.addWidget(self.xAxis)
 
     def onMyAllButtonClick(self, s):
         pass
 
-    def onMyCheckBoxClick(self, this):
-        dlg = QColorDialog(self)
+    def onMyAcceptButtonClick(self, s):
+        pass
 
-        if dlg.exec_():
-            this.setStyleSheet(f'color: {dlg.currentColor().name()};')
+    def onMyPlotAllButtonClick(self,s):
+        self.verticalLayout_2.removeWidget(self.widgetToolbar)
+
+        self.widgetCanvas = QWidget()
+        self.widgetToolbar = QWidget()
+        self.widgetXAxis = QWidget()
+
+        self.scrollAreaCanvases.setWidget(self.widgetCanvas)
+        self.verticalLayout_2.addWidget(self.widgetToolbar)
+        self.scrollAreaXAxis.setWidget(self.widgetXAxis)
+
+        self.showCanvases(self.comboBoxFileNames.currentText())
+        self.showXAxis()
+
+    def onMyAddButtonClick(self, s):
+        pass
 
     def onMyExitButtonClick(self,s):
         self.close()
+
+    def onMyButtonClick(self, this):
+        dlg = QColorDialog(self)
+
+        if dlg.exec_():
+            this.setStyleSheet(f'background: {dlg.currentColor().name()};')
 
     def GetColorsCheckBoxs(self):
         dictColors = {'Name': [], 'Color': []}

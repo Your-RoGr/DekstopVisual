@@ -1,9 +1,9 @@
 from PyQt5.Qt import *
 from Handler_Class import Handler
 
-class GetCheckBox(QWidget):
+class GetButtons(QWidget):
     def __init__(self, comboBoxFileNames):
-        super(GetCheckBox, self).__init__()
+        super(GetButtons, self).__init__()
 
         self.comboBoxFileNames = comboBoxFileNames
         self.initUi()
@@ -13,10 +13,12 @@ class GetCheckBox(QWidget):
 
         for carottage in Handler(self.comboBoxFileNames.currentText()).keys:
             if carottage != 'DEPT':
-                self.newCheckBox = QCheckBox()
-                self.newCheckBox.setObjectName(carottage)
-                self.newCheckBox.setText(carottage)
+                self.newButton = QPushButton()
+                self.newButton.setObjectName(carottage)
+                self.newButton.setText(carottage)
+                self.newButton.setMaximumWidth(50)
+                self.newButton.setMinimumWidth(50)
 
-                self.mainLayout.addWidget(self.newCheckBox)
+                self.mainLayout.addWidget(self.newButton)
 
         self.setLayout(self.mainLayout)
