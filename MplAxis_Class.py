@@ -12,7 +12,7 @@ from Handler_Class import Handler
 
 class MplAxis(FigureCanvas):
 
-    def __init__(self, fileName):
+    def __init__(self, fileName, dictColor):
 
         las = Handler(fileName)
         carottages = las.keys

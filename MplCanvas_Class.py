@@ -29,7 +29,7 @@ class MplCanvases(FigureCanvas):
         fig = plt.figure()
         fig.subplots_adjust(**margins)
 
-
+        print(dictColor)
 
         i = self.GetGroupToPlot(carottages, dictColor, las, carottages2)
         # self.GetCanvas(i, carottages2, dictColor, las)
@@ -70,7 +70,7 @@ class MplCanvases(FigureCanvas):
                 i += 1
 
             if carottage == 'PS_T' or carottage == 'IK_T':
-                a=pylab.subplot(1, 4, i)
+                a = pylab.subplot(1, 4, i)
                 self.ax1 = pylab.axes(a)
                 self.ax2 = self.ax1.twiny()
                 allValue = []
@@ -245,6 +245,30 @@ class MplCanvases(FigureCanvas):
         else:
             pylab.plot(x, y)
 
+    def GetLog(self, NameCarottage):
+        x, y = self.las.GetCarottageValue(NameCarottage)
+        pylab.plot(x, y)
+        pylab.yscale('log')
+
+    def GatFiveGrapgic(self, carottages, dictColor, las):
+        # self.GetGroupToPlot(self, carottages, dictColor, las)
+        a = pylab.subplot(1, 5, 5)
+        allValue = []
+
+        for carottage in carottages:
+            self.ax = pylab.axes(a)
+            x, y = las.GetCarottageValue(carottage)
+            carottages.pop(carottages.index(carottage))
+            self.GetPlotAx(x, y, dictColor, carottage)
+            allValue.append(x)
+            self.ax.set_xticklabels([])
+
+        pylab.grid(True)
+        pylab.xlim(np.nanmin(allValue) - 1, np.nanmax(allValue) + 1)
+        pylab.gca().invert_yaxis()
+        pylab.title('Castom Graphic')
+        # for numb in len(CarottName):
+        #     ax2 = self.ax2.twiny()
     # def GetPlotAx(self, x, y, dictColor, nameCarottage):
     #     color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
     #     ax1 =
@@ -271,7 +295,14 @@ class MplCanvases(FigureCanvas):
             self.ax1.plot(x, y, color=color[1][:-1])
         else:
             self.ax1.plot(x, y)
+    def GetPlotAx(self, x, y, dictColor, nameCarottage):
+        color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
 
+        if color != '':
+            color = color.split(': ')
+            self.ax.plot(x, y, color=color[1][:-1])
+        else:
+            self.ax.plot(x, y)
 
     def GetPlotAx2(self, x, y, dictColor, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]

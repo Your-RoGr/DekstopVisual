@@ -8,16 +8,16 @@ import win32gui
 import win32con
 import pywintypes # need for work pyinstaller with win32gui
 
+from random import randint
 from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
-
-from MplCanvas_Class import MplCanvases
 
 from MainForm import Ui_MainWindow
 
 from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigatorToolbar
 
+from MplCanvas_Class import MplCanvases
 from Handler_Class import Handler
 from GetCheckBox_Class import GetCheckBox
 from GetDoubleSpinBoxs_Class import GetDoubleSpinBoxs
@@ -166,7 +166,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.layout_for_canvas = QVBoxLayout(self.widgetCanvas)
         self.layout_for_toolbar = QVBoxLayout(self.widgetToolbar)
         # Получение объекта класса холста с нашим рисунком
-        self.canvas = MplCanvases(fileName, self.GetColorsCheckBoxs())
+        self.canvas = MplCanvases(fileName, self.GetButtonsColors())
         # Размещение экземпляра класса холста в шаблоне размещения
         self.layout_for_canvas.addWidget(self.canvas)
         # Получение объекта класса панели управления холста
@@ -174,11 +174,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Размещение экземпляра класса панели управления в шаблоне размещения
         self.layout_for_toolbar.addWidget(self.toolbar)
 
-    def showXAxis(self): # Изменить
+    def showXAxis(self, fileName): # Изменить
         # добавление шаблона резмещения на виджет
         self.layout_for_XAxis = QVBoxLayout(self.widgetXAxis)
         # Получение объекта класса холста с нашим рисунком
-        self.xAxis = MplAxis('1.las')
+        self.xAxis = MplAxis(fileName, self.GetButtonsColors())
         # Размещение экземпляра класса холста в шаблоне размещения
         self.layout_for_XAxis.addWidget(self.xAxis)
 
@@ -200,7 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.scrollAreaXAxis.setWidget(self.widgetXAxis)
 
         self.showCanvases(self.comboBoxFileNames.currentText())
-        self.showXAxis()
+        self.showXAxis(self.comboBoxFileNames.currentText())
 
     def onMyAddButtonClick(self, s):
         pass
@@ -214,11 +214,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             this.setStyleSheet(f'background: {dlg.currentColor().name()};')
 
-    def GetColorsCheckBoxs(self):
+    def GetButtonsColors(self):
+
+        defaultColor7 = []
+
+        for i in range(9):
+
+            r = lambda: randint(0, 255)
+
+            defaultColor7.append('#%02X%02X%02X' % (r(), r(), r()))
+
+
+        defaultColors = [f'{defaultColor7[0]}', '#ff0000', f'{defaultColor7[1]}', f'{defaultColor7[2]}', f'{defaultColor7[3]}',
+                         '#000000', '#ff0000', '#00ff00', f'{defaultColor7[4]}', f'{defaultColor7[5]}', f'{defaultColor7[6]}',
+                         f'{defaultColor7[7]}', f'{defaultColor7[8]}']
+
         dictColors = {'Name': [], 'Color': []}
-        for i in range(self.checkBoxs.mainLayout.count()):
-            dictColors['Name'].append(self.checkBoxs.mainLayout.itemAt(i).widget().objectName())
-            dictColors['Color'].append(self.checkBoxs.mainLayout.itemAt(i).widget().styleSheet())
+        for i in range(self.buttons.mainLayout.count()):
+            dictColors['Name'].append(self.buttons.mainLayout.itemAt(i).widget().objectName())
+            # print(self.buttons.mainLayout.itemAt(i).widget().styleSheet())
+            if self.buttons.mainLayout.itemAt(i).widget().styleSheet() == '':
+                dictColors['Color'].append('background: ' + defaultColors[i] + ';')
+            else:
+                dictColors['Color'].append(self.buttons.mainLayout.itemAt(i).widget().styleSheet())
 
         return dictColors
 
