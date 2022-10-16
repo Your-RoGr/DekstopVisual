@@ -25,7 +25,7 @@ class MplAxis(FigureCanvas):
 
         # x, _ = las.GetCarottageValue('GK_T')
 
-        fig = self.GetAxisX(lenHolst = 6)
+        fig = self.GetAxisX(lenHolst = 4)
         # fig.append(fig1)
         super(MplAxis, self).__init__(fig)
 
