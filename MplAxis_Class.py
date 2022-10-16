@@ -14,334 +14,406 @@ from Handler_Class import Handler
 # вход кол-во холстов, макс кол-во граф в холсте
 class MplAxis(FigureCanvas):
 
-    def __init__(self, fileName, lenHolst = 4, lenGraphics = 13):
+    def __init__(self, fileName, lenHolst = 4, Graphics = []):
 
         self.las = Handler(fileName)
         self.carottages = self.las.keys
         self.lenHolst = lenHolst
-        self.lenGraphics = lenGraphics
+        self.lenGraphics = Graphics
         # fig = []
         # carottages2 = carottages
 
         # x, _ = las.GetCarottageValue('GK_T')
 
-        fig = self.GetAxisX(lenHolst = 4)
+        fig = self.GetAxisX(lenHolst = 4, Graphics=[])
         # fig.append(fig1)
         super(MplAxis, self).__init__(fig)
 
-    def GetAxisX(self,lenHolst, step=2):
+    def GetAxisX(self,lenHolst, Graphics=[], QuantityGraphics=5, step=2):
 
         margins = {
             "left": 0.040,
-            "bottom": 0.2,
+            "bottom": 0.060,
             "right": 0.990,
-            "top": 0.990
+            "top": 1.2
         }
 
         fig = plt.figure()
-        fig.subplots_adjust(**margins)
+        fig.subplots_adjust(**margins, wspace=0.375, hspace=0)
+
+        if len(Graphics) > 5:
+
+            QuantityGraphics = len(Graphics)
+
+        if len(Graphics) > 0:
+
+            i = 5
+
+            for Graphic in Graphics:
+                x, _ = self.las.GetCarottageValue(Graphic)
+
+                if np.nanmin(x) > 0:
+
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
+
+                    ax = pylab.gca()
+
+                    pylab.yticks([])
+
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
+
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
+
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
+
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
+
+                    plt.plot(0, 0, label=f'{Graphic} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
+
+                    i += 5
 
         for CarottageName in self.carottages:
 
             x, _ = self.las.GetCarottageValue(CarottageName)
 
-            if CarottageName == 'PZ_T':
-                i = 1
-                pylab.subplot(5, lenHolst, i)
+            if np.nanmin(x) > 0:
 
-                ax = pylab.gca()
+                if CarottageName == 'PZ_T':
+                    i = 1
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                pylab.yticks([])
+                    ax = pylab.gca()
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    pylab.yticks([])
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-            if CarottageName == 'GK_T':
-                i = 2
-                pylab.subplot(5, lenHolst, i)
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-                ax = pylab.gca()
+                if CarottageName == 'GK_T':
+                    i = 2
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                pylab.yticks([])
+                    ax = pylab.gca()
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    pylab.yticks([])
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
+                    print()
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'PS_T':
-                i = 3
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'PS_T':
+                    i = 3
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'GZ1_T':
-                i = 4
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'GZ1_T':
+                    i = 4
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'MPZ_T':
-                i = 1 + lenHolst
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'MPZ_T':
+                    i = 1 + lenHolst
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'BK_T':
-                i = 2 + lenHolst
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'BK_T':
+                    i = 2 + lenHolst
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'IK_T':
-                i = 3 + lenHolst
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'IK_T':
+                    i = 3 + lenHolst
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'GZ2_T':
-                i = 4 + lenHolst
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'GZ2_T':
+                    i = 4 + lenHolst
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'MGZ_T':
-                i = 1 + lenHolst * 2
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'MGZ_T':
+                    i = 1 + lenHolst * 2
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'GZ3_T':
-                i = 4 + lenHolst * 2
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'GZ3_T':
+                    i = 4 + lenHolst * 2
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'MBK_T':
-                i = 1 + lenHolst * 3
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'MBK_T':
+                    i = 1 + lenHolst * 3
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'GZ4_T':
-                i = 4 + lenHolst * 3
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'GZ4_T':
+                    i = 4 + lenHolst * 3
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
-            if CarottageName == 'GZ5_T':
-                i = 4 + lenHolst * 4
-                pylab.subplot(5, lenHolst, i)
+                if CarottageName == 'GZ5_T':
+                    i = 4 + lenHolst * 4
+                    a = pylab.subplot(QuantityGraphics, lenHolst, i)
+                    ax = pylab.axes(a)
+                    ax.patch.set_alpha(0)
 
-                ax = pylab.gca()
+                    ax = pylab.gca()
 
-                pylab.yticks([])
+                    pylab.yticks([])
 
-                ax.spines['left'].set_visible(False)
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                x1 = int(np.nanmin(x))
-                x2 = int(np.nanmax(x))
+                    x1 = int(np.nanmin(x))
+                    x2 = int(np.nanmax(x))
 
-                pylab.xlim(np.nanmin(x), np.nanmax(x))
+                    pylab.xlim(np.nanmin(x), np.nanmax(x))
 
-                plt.plot(0, 0, label=CarottageName, color='red')
-                ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
-                plt.xticks(range(x1, x2, 2))
+                    plt.plot(0, 0, label=f'{CarottageName} ус. ед.', color='red')
+                    ax.legend(loc='lower left', prop={'family': 'Comic Sans MS', 'size': 8})
+                    plt.xticks(np.arange(x1, x2, self.step(x1, x2)), rotation=90)
 
         return fig
+
+    def step(self, x1, x2):
+
+        step = (x2-x1)/10
+
+        return step

@@ -197,8 +197,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.widgetToolbar = QWidget()
         self.widgetXAxis = QWidget()
 
-        self.widgetXAxis.setMaximumHeight(900)
-        self.widgetXAxis.setMinimumHeight(900)
+        self.widgetXAxis.setMaximumHeight(350)
+        self.widgetXAxis.setMinimumHeight(350)
 
         self.scrollAreaCanvases.setWidget(self.widgetCanvas)
         self.verticalLayout_2.addWidget(self.widgetToolbar)

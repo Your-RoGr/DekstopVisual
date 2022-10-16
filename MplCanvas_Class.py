@@ -27,7 +27,7 @@ class MplCanvases(FigureCanvas):
         carottages2 = carottages
         # fig, ax = plt.subplots()
         fig = plt.figure()
-        fig.subplots_adjust(**margins)
+        fig.subplots_adjust(**margins, wspace=0.3, hspace=0)
 
         print(dictColor)
 
