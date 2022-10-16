@@ -21,6 +21,7 @@ class GetDoubleSpinBoxs(QWidget):
                 self.newDoubleSpinBoxs.setMaximumHeight(30)
                 self.newDoubleSpinBoxs.setMinimumHeight(30)
                 self.newDoubleSpinBoxs.setFont(QFont('Comic Sans MS', 10))
+                self.newDoubleSpinBoxs.setRange(1,10)
 
                 self.mainLayout.addWidget(self.newDoubleSpinBoxs)
 

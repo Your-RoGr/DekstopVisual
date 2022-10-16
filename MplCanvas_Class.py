@@ -13,7 +13,7 @@ from Handler_Class import Handler
 
 class MplCanvases(FigureCanvas):
 
-    def __init__(self, fileName, dictColor):
+    def __init__(self, fileName, dictColor, doubleSpinBoxsValue):
 
         margins = {
             "left": 0.040,
@@ -31,12 +31,12 @@ class MplCanvases(FigureCanvas):
 
         print(dictColor)
 
-        i = self.GetGroupToPlot(carottages, dictColor, las, carottages2)
+        i = self.GetGroupToPlot(carottages, dictColor, doubleSpinBoxsValue, las, carottages2)
         # self.GetCanvas(i, carottages2, dictColor, las)
 
         super(MplCanvases, self).__init__(fig)
 
-    def GetGroupToPlot(self, carottages, dictColor, las, carottages2):
+    def GetGroupToPlot(self, carottages, dictColor, doubleSpinBoxsValue, las, carottages2):
 
         i = 1
 
@@ -52,12 +52,12 @@ class MplCanvases(FigureCanvas):
                     x, y = las.GetCarottageValue('GK_T')
                     carottages.pop(carottages.index('GK_T'))
 
-                    self.GetPlotAx1(x, y, dictColor, 'GK_T')
+                    self.GetPlotAx1(x, y, dictColor, doubleSpinBoxsValue, 'GK_T')
                     allValue.append(x)
 
                 x, y = las.GetCarottageValue('BK_T')
 
-                self.GetPlotAx2(x, y, dictColor, 'BK_T')
+                self.GetPlotAx2(x, y, dictColor, doubleSpinBoxsValue, 'BK_T')
                 allValue.append(x)
 
                 self.ax1.set_xticklabels([])
@@ -79,12 +79,12 @@ class MplCanvases(FigureCanvas):
                     x, y = las.GetCarottageValue('PS_T')
                     carottages.pop(carottages.index('PS_T'))
 
-                    self.GetPlotAx1(x, y, dictColor, 'PS_T')
+                    self.GetPlotAx1(x, y, dictColor, doubleSpinBoxsValue, 'PS_T')
                     allValue.append(x)
 
                 x, y = las.GetCarottageValue('IK_T')
 
-                self.GetPlotAx2(x, y, dictColor, 'IK_T')
+                self.GetPlotAx2(x, y, dictColor, doubleSpinBoxsValue, 'IK_T')
                 allValue.append(x)
 
                 self.ax1.set_xticklabels([])
@@ -108,28 +108,28 @@ class MplCanvases(FigureCanvas):
                     x, y = las.GetCarottageValue('PZ_T')
                     carottages.pop(carottages.index('PZ_T'))
 
-                    self.GetPlotAx1(x, y, dictColor, 'PZ_T')
+                    self.GetPlotAx1(x, y, dictColor, doubleSpinBoxsValue, 'PZ_T')
                     allValue.append(x)
 
                 if 'MPZ_T' in carottages:
                     x, y = las.GetCarottageValue('MPZ_T')
                     carottages.pop(carottages.index('MPZ_T'))
 
-                    self.GetPlotAx2(x, y, dictColor, 'MPZ_T')
+                    self.GetPlotAx2(x, y, dictColor, doubleSpinBoxsValue, 'MPZ_T')
                     allValue.append(x)
 
                 if 'MGZ_T' in carottages:
                     x, y = las.GetCarottageValue('MGZ_T')
                     carottages.pop(carottages.index('MGZ_T'))
 
-                    self.GetPlotAx3(x, y, dictColor, 'MGZ_T')
+                    self.GetPlotAx3(x, y, dictColor, doubleSpinBoxsValue, 'MGZ_T')
                     allValue.append(x)
 
                 if 'MBK_T' in carottages:
                     x, y = las.GetCarottageValue('MBK_T')
                     carottages.pop(carottages.index('MBK_T'))
 
-                    self.GetPlotAx4(x, y, dictColor, 'MBK_T')
+                    self.GetPlotAx4(x, y, dictColor, doubleSpinBoxsValue, 'MBK_T')
                     allValue.append(x)
 
                 self.ax1.set_xticklabels([])
@@ -157,35 +157,35 @@ class MplCanvases(FigureCanvas):
                     x, y = las.GetCarottageValue('GZ1_T')
                     carottages.pop(carottages.index('GZ1_T'))
 
-                    self.GetPlotAx1(x, y, dictColor, 'GZ1_T')
+                    self.GetPlotAx1(x, y, dictColor, doubleSpinBoxsValue, 'GZ1_T')
                     allValue.append(x)
 
                 if 'GZ2_T' in carottages:
                     x, y = las.GetCarottageValue('GZ2_T')
                     carottages.pop(carottages.index('GZ2_T'))
 
-                    self.GetPlotAx2(x, y, dictColor, 'GZ2_T')
+                    self.GetPlotAx2(x, y, dictColor, doubleSpinBoxsValue, 'GZ2_T')
                     allValue.append(x)
 
                 if 'GZ3_T' in carottages:
                     x, y = las.GetCarottageValue('GZ3_T')
                     carottages.pop(carottages.index('GZ3_T'))
 
-                    self.GetPlotAx3(x, y, dictColor, 'GZ3_T')
+                    self.GetPlotAx3(x, y, dictColor, doubleSpinBoxsValue, 'GZ3_T')
                     allValue.append(x)
 
                 if 'GZ4_T' in carottages:
                     x, y = las.GetCarottageValue('GZ4_T')
                     carottages.pop(carottages.index('GZ4_T'))
 
-                    self.GetPlotAx4(x, y, dictColor, 'GZ4_T')
+                    self.GetPlotAx4(x, y, dictColor, doubleSpinBoxsValue, 'GZ4_T')
                     allValue.append(x)
 
                 if 'GZ5_T' in carottages:
                     x, y = las.GetCarottageValue('GZ5_T')
                     carottages.pop(carottages.index('GZ5_T'))
 
-                    self.GetPlotAx5(x, y, dictColor, 'GZ5_T')
+                    self.GetPlotAx5(x, y, dictColor, doubleSpinBoxsValue, 'GZ5_T')
                     allValue.append(x)
 
 
@@ -250,23 +250,23 @@ class MplCanvases(FigureCanvas):
         pylab.plot(x, y)
         pylab.yscale('log')
 
-    def GatFiveGrapgic(self, carottages, dictColor, las):
-        # self.GetGroupToPlot(self, carottages, dictColor, las)
-        a = pylab.subplot(1, 5, 5)
-        allValue = []
-
-        for carottage in carottages:
-            self.ax = pylab.axes(a)
-            x, y = las.GetCarottageValue(carottage)
-            carottages.pop(carottages.index(carottage))
-            self.GetPlotAx(x, y, dictColor, carottage)
-            allValue.append(x)
-            self.ax.set_xticklabels([])
-
-        pylab.grid(True)
-        pylab.xlim(np.nanmin(allValue) - 1, np.nanmax(allValue) + 1)
-        pylab.gca().invert_yaxis()
-        pylab.title('Castom Graphic')
+    # def GatFiveGraphic(self, carottages, dictColor, las):
+    #     # self.GetGroupToPlot(self, carottages, dictColor, las)
+    #     a = pylab.subplot(1, 5, 5)
+    #     allValue = []
+    #
+    #     for carottage in carottages:
+    #         self.ax = pylab.axes(a)
+    #         x, y = las.GetCarottageValue(carottage)
+    #         carottages.pop(carottages.index(carottage))
+    #         self.GetPlotAx(x, y, dictColor, doubleSpinBoxsValue, carottage)
+    #         allValue.append(x)
+    #         self.ax.set_xticklabels([])
+    #
+    #     pylab.grid(True)
+    #     pylab.xlim(np.nanmin(allValue) - 1, np.nanmax(allValue) + 1)
+    #     pylab.gca().invert_yaxis()
+    #     pylab.title('Castom Graphic')
         # for numb in len(CarottName):
         #     ax2 = self.ax2.twiny()
     # def GetPlotAx(self, x, y, dictColor, nameCarottage):
@@ -287,55 +287,61 @@ class MplCanvases(FigureCanvas):
     #         else:
     #             self.Ax[i].plot(x, y)
 
-    def GetPlotAx1(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx1(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax1.plot(x, y, color=color[1][:-1])
+            self.ax1.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax1.plot(x, y)
-    def GetPlotAx(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax.plot(x, y, color=color[1][:-1])
+            self.ax.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax.plot(x, y)
 
-    def GetPlotAx2(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx2(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax2.plot(x, y, color=color[1][:-1])
+            self.ax2.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax2.plot(x, y)
 
-    def GetPlotAx3(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx3(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax3.plot(x, y, color=color[1][:-1])
+            self.ax3.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax3.plot(x, y)
 
-    def GetPlotAx4(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx4(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax4.plot(x, y, color=color[1][:-1])
+            self.ax4.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax4.plot(x, y)
 
-    def GetPlotAx5(self, x, y, dictColor, nameCarottage):
+    def GetPlotAx5(self, x, y, dictColor, doubleSpinBoxsValue, nameCarottage):
         color = dictColor['Color'][dictColor['Name'].index(f'{nameCarottage}')]
+        linewidth = doubleSpinBoxsValue['Value'][doubleSpinBoxsValue['Name'].index(f'{nameCarottage}')]
 
         if color != '':
             color = color.split(': ')
-            self.ax5.plot(x, y, color=color[1][:-1])
+            self.ax5.plot(x, y, color=color[1][:-1], linewidth=linewidth)
         else:
             self.ax5.plot(x, y)

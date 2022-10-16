@@ -1,7 +1,7 @@
 import sys
 # import os
 # import random
-#
+
 # import numpy
 # import pandas
 import win32gui
@@ -33,6 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.path = "data\\GIS_md"
 
         self.setWindowTitle("DesktopVisual")
+
+        self.doubleSpinBox.setRange(1, 10)
 
         self.widgetCanvas.setMaximumHeight(900)
         self.widgetCanvas.setMinimumHeight(900)
@@ -166,7 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.layout_for_canvas = QVBoxLayout(self.widgetCanvas)
         self.layout_for_toolbar = QVBoxLayout(self.widgetToolbar)
         # Получение объекта класса холста с нашим рисунком
-        self.canvas = MplCanvases(fileName, self.GetButtonsColors())
+        self.canvas = MplCanvases(fileName, self.GetButtonsColors(), self.GetDoubleSpinBoxsValue())
         # Размещение экземпляра класса холста в шаблоне размещения
         self.layout_for_canvas.addWidget(self.canvas)
         # Получение объекта класса панели управления холста
@@ -195,6 +197,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.widgetToolbar = QWidget()
         self.widgetXAxis = QWidget()
 
+        self.widgetXAxis.setMaximumHeight(400)
+        self.widgetXAxis.setMinimumHeight(400)
+
         self.scrollAreaCanvases.setWidget(self.widgetCanvas)
         self.verticalLayout_2.addWidget(self.widgetToolbar)
         self.scrollAreaXAxis.setWidget(self.widgetXAxis)
@@ -214,6 +219,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             this.setStyleSheet(f'background: {dlg.currentColor().name()};')
 
+    def GetDoubleSpinBoxsValue(self):
+        doubleSpinBoxsValue = {'Name': [], 'Value': []}
+
+        for i in range(self.doubleSpinBoxs.mainLayout.count()):
+            doubleSpinBoxsValue['Name'].append(self.buttons.mainLayout.itemAt(i).widget().objectName())
+            doubleSpinBoxsValue['Value'].append(self.doubleSpinBoxs.mainLayout.itemAt(i).widget().value())
+
+        return doubleSpinBoxsValue
+
     def GetButtonsColors(self):
 
         defaultColor7 = []
@@ -232,7 +246,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dictColors = {'Name': [], 'Color': []}
         for i in range(self.buttons.mainLayout.count()):
             dictColors['Name'].append(self.buttons.mainLayout.itemAt(i).widget().objectName())
-            # print(self.buttons.mainLayout.itemAt(i).widget().styleSheet())
             if self.buttons.mainLayout.itemAt(i).widget().styleSheet() == '':
                 dictColors['Color'].append('background: ' + defaultColors[i] + ';')
             else:
